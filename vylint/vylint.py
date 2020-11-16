@@ -151,8 +151,8 @@ def check_hashbang(line, filename, report):
     # this check only runs on the first line
     #  maybe this should check for shell?
     if (
-        not filename.endswith(".sh")
-        and not line.startswith("#!")
+        not filename.endswith(".vy")
+        and not line.startswith("# @version")
         and not os.path.basename(filename).startswith(".")
     ):
         report.print_error(MESSAGES["E005"].msg, line)
