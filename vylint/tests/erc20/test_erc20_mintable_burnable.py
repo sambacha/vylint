@@ -1,5 +1,4 @@
 import pytest
-
 from web3.exceptions import ValidationError
 
 ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"

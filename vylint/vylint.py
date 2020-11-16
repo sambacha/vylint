@@ -153,7 +153,7 @@ def check_hashbang(line, filename, report):
     # also as you will see below I am not using a vyper parser, this is straight madness.
     # madness mate
     # bloody madeness.
-    # 
+    #
     if (
         not filename.endswith(".vy")
         and not line.startswith("# @version")
@@ -174,7 +174,7 @@ def check_conditional_expression(line, report):
     # So we're just going to ignore parser failures here and move on.
     # LOL.
     # Possibly in the future I wont half ass this.
-    # 
+    #
     try:
         toks = shlex.shlex(line)
         toks.wordchars = "[]=~"
@@ -191,13 +191,15 @@ def check_conditional_expression(line, report):
         elif tok == "]":
             in_single_bracket = False
 
-# next we check characte encoding 
+
+# next we check characte encoding
 # fuck UTF
 # ASCII ALL THE WAY BABY
 
+
 def check_syntax(filename, report):
-    # ergo we gotta trick this into think its a bash script. 
-    # so.... 
+    # ergo we gotta trick this into think its a bash script.
+    # so....
     # we run the file through "bash -n" to catch basic syntax errors and
     # other warnings
     # and pray to mother mary dat dis shit stays together

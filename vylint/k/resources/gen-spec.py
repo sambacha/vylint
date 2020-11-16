@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-import sys
-import re
 import configparser
+import re
+import sys
 
 
 def app(specs, spec):

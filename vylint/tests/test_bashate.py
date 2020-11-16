@@ -19,10 +19,8 @@ Tests for `vylint` module.
 
 from unittest import mock
 
-from vylint import vylint
-from vylint import messages
+from vylint import messages, vylint
 from vylint.tests import base
-
 
 MESSAGES = messages.MESSAGES
 

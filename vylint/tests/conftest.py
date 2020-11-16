@@ -1,30 +1,19 @@
 # Copied from: https://github.com/ethereum/vyper/blob/v0.1.0-beta.6/tests/conftest.py
 
-import eth_tester
 import logging
-import pytest
-import web3
-
 from functools import wraps
 
-from eth_tester import (
-    EthereumTester,
-)
-from eth_tester.exceptions import TransactionFailed
-from web3.providers.eth_tester import (
-    EthereumTesterProvider,
-)
-
-from web3 import (
-    Web3,
-)
+import pytest
+import web3
+from web3 import Web3
 from web3.contract import ConciseContract, ConciseMethod
+from web3.providers.eth_tester import EthereumTesterProvider
+
+import eth_tester
+from eth_tester import EthereumTester
+from eth_tester.exceptions import TransactionFailed
+from vyper import compile_lll, compiler, optimizer
 from vyper.parser.parser_utils import LLLnode
-from vyper import (
-    compile_lll,
-    compiler,
-    optimizer,
-)
 
 
 class VyperMethod(ConciseMethod):
