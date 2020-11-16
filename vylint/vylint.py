@@ -252,7 +252,7 @@ def check_syntax(filename, report):
                 )
 
 
-class BashateRun(object):
+class VyperRun(object):
     def __init__(self):
         self.error_count = 0
         self.error_list = None
@@ -465,7 +465,7 @@ def main(args=None):
         parser.print_usage()
         return 1
 
-    run = BashateRun()
+    run = VyperRun()
     run.register_ignores(opts.ignore)
     run.register_warnings(opts.warn)
     run.register_errors(opts.error)

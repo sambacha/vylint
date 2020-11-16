@@ -27,12 +27,12 @@ from vylint.tests import base
 MESSAGES = messages.MESSAGES
 
 
-class TestBashate(base.TestCase):
+class TestVyper(base.TestCase):
     def setUp(self):
-        super(TestBashate, self).setUp()
-        self.run = vylint.BashateRun()
+        super(TestVyper, self).setUp()
+        self.run = vylint.VyperRun()
 
-    @mock.patch("vylint.vylint.BashateRun")
+    @mock.patch("vylint.vylint.VyperRun")
     def test_main_no_files(self, m_vylintrun):
         m_run_obj = mock.MagicMock()
         m_run_obj.error_count = 0
@@ -43,7 +43,7 @@ class TestBashate(base.TestCase):
         expected_return = 1
         self.assertEqual(expected_return, result)
 
-    @mock.patch("vylint.vylint.BashateRun")
+    @mock.patch("vylint.vylint.VyperRun")
     def test_main_return_one_on_errors(self, m_vylintrun):
         m_run_obj = mock.MagicMock()
         m_run_obj.warning_count = 1
@@ -54,7 +54,7 @@ class TestBashate(base.TestCase):
         expected_return = 1
         self.assertEqual(expected_return, result)
 
-    @mock.patch("vylint.vylint.BashateRun")
+    @mock.patch("vylint.vylint.VyperRun")
     def test_main_return_one_on_ioerror(self, m_vylintrun):
         m_run_obj = mock.MagicMock()
         m_run_obj.error_count = 0
@@ -96,7 +96,7 @@ class TestBashate(base.TestCase):
 
         self.assertEqual(0, self.run.error_count)
 
-    @mock.patch("vylint.vylint.BashateRun.print_error")
+    @mock.patch("vylint.vylint.VyperRun.print_error")
     def test_while_check_for_do(self, m_print_error):
         test_line = "while `do something args`"
         vylint.check_for_do(test_line, self.run)
@@ -104,14 +104,14 @@ class TestBashate(base.TestCase):
         m_print_error.assert_called_once_with(MESSAGES["E010"].msg % "while", test_line)
 
 
-class TestBashateSamples(base.TestCase):
+class TestVyperSamples(base.TestCase):
     """End to end regression testing of vylint against script samples."""
 
     def setUp(self):
-        super(TestBashateSamples, self).setUp()
-        log_error_patcher = mock.patch("vylint.vylint.BashateRun.log_error")
+        super(TestVyperSamples, self).setUp()
+        log_error_patcher = mock.patch("vylint.vylint.VyperRun.log_error")
         self.m_log_error = log_error_patcher.start()
-        self.run = vylint.BashateRun()
+        self.run = vylint.VyperRun()
         self.addCleanup(log_error_patcher.stop)
 
     def assert_error_found(self, error, lineno):
