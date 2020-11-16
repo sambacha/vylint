@@ -36,7 +36,7 @@ def check_for_do(line, report):
         if match:
             operator = match.group(1).strip()
             if operator == "for":
-                # "for i in ..." and "for ((" is bash, but
+                # "for i in ..." and "for ((" is vyper, but
                 # "for (" is likely from an embedded awk script,
                 # so skip it
                 if re.search(r"for \([^\(]", line):
@@ -149,7 +149,11 @@ def check_local_subshell(line, report):
 
 def check_hashbang(line, filename, report):
     # this check only runs on the first line
-    #  maybe this should check for shell?
+    # the check is referenced as `hashbang` as #!/user/bin/env vyper` could be used
+    # also as you will see below I am not using a vyper parser, this is straight madness.
+    # madness mate
+    # bloody madeness.
+    # 
     if (
         not filename.endswith(".vy")
         and not line.startswith("# @version")
@@ -159,16 +163,7 @@ def check_hashbang(line, filename, report):
 
 
 def check_conditional_expression(line, report):
-    # We're really starting to push the limits of what we can do without
-    # a complete bash syntax parser here.  For example
-    # > [[ $foo =~ " [ " ]] && [[ $bar =~ " ] " ]]
-    # would be valid but mess up a simple regex matcher for "[.*]".
-    # Let alone dealing with multiple-line-spanning etc...
-    #
-    # So we'll KISS and just look for simple, one line,
-    # > if [ $foo =~ "bar" ]; then
-    # type statements, which are the vast majority of typo errors.
-    #
+    # without a complete vyper syntax parser here we go ghetto with my girl shlex.
     # shlex is pretty helpful in getting us something we can walk to
     # find this pattern.  It does however have issues with
     # unterminated quotes on multi-line strings (e.g.)
@@ -177,9 +172,9 @@ def check_conditional_expression(line, report):
     #  baz"
     #
     # So we're just going to ignore parser failures here and move on.
-    # Possibly in the future we could pull such multi-line strings
-    # into "logical_line" below, and pass that here and have shlex
-    # break that up.
+    # LOL.
+    # Possibly in the future I wont half ass this.
+    # 
     try:
         toks = shlex.shlex(line)
         toks.wordchars = "[]=~"
@@ -196,17 +191,23 @@ def check_conditional_expression(line, report):
         elif tok == "]":
             in_single_bracket = False
 
+# next we check characte encoding 
+# fuck UTF
+# ASCII ALL THE WAY BABY
 
 def check_syntax(filename, report):
-    # run the file through "bash -n" to catch basic syntax errors and
+    # ergo we gotta trick this into think its a bash script. 
+    # so.... 
+    # we run the file through "bash -n" to catch basic syntax errors and
     # other warnings
+    # and pray to mother mary dat dis shit stays together
     matches = []
 
     # sample lines we want to match:
-    # foo.sh: line 4: warning: \
+    # foo.vy: line 4: warning: \
     #    here-document at line 1 delimited by end-of-file (wanted `EOF')
-    # foo.sh: line 9: syntax error: unexpected end of file
-    # foo.sh: line 7: syntax error near unexpected token `}'
+    # foo.vy: line 9: syntax error: unexpected end of file
+    # foo.vy: line 7: syntax error near unexpected token `}'
     #
     # i.e. consistency with ":"'s isn't constant, so just do our
     # best...
