@@ -1,0 +1,119 @@
+version: 2
+jobs:
+  erc20test:
+    working_directory: ~/verified-vyper-contracts/tests
+    docker:
+      - image: python:3.6.7
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh erc20
+
+  erc721test:
+    working_directory: ~/verified-vyper-contracts/tests
+    docker:
+      - image: python:3.6.7
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh erc721
+
+  erc20kprove:
+    working_directory: ~/verified-vyper-contracts/k
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh erc20
+
+  erc721kprove:
+    working_directory: ~/verified-vyper-contracts/k
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh erc721
+
+  builtinskprove:
+    working_directory: ~/verified-vyper-contracts/k
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh built-ins
+
+  merkletest:
+    working_directory: ~/verified-vyper-contracts/tests
+    docker:
+      - image: python:3.6.7
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh merkle
+
+  ecdsatest:
+    working_directory: ~/verified-vyper-contracts/tests
+    docker:
+      - image: python:3.6.7
+    steps:
+      - checkout:
+          path: ~/verified-vyper-contracts
+      - run: ./test.sh ecdsa
+
+
+workflows:
+    version: 2
+    build:
+      jobs:
+        - erc20test:
+            filters:
+              branches:
+                only:
+                  - /erc20\/.*/
+                  - /all\/.*/
+                  - master
+        - erc721test:
+            filters:
+              branches:
+                only:
+                  - /erc721\/.*/
+                  - /all\/.*/
+                  - master
+        - erc20kprove:
+            filters:
+              branches:
+                only:
+                  - /erc20\/.*/
+                  - /all\/.*/
+                  - master
+        - erc721kprove:
+            filters:
+              branches:
+                only:
+                  - /erc721\/.*/
+                  - /all\/.*/
+                  - master
+        - builtinskprove:
+            filters:
+              branches:
+                only:
+                  - /built-ins\/.*/
+                  - /all\/.*/
+                  - master
+        - merkletest:
+            filters:
+              branches:
+                only:
+                  - /merkle\/.*/
+                  - /all\/.*/
+                  - master
+        - ecdsatest:
+            filters:
+              branches:
+                only:
+                  - /ecdsa\/.*/
+                  - /all\/.*/
+                  - master

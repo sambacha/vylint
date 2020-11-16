@@ -1,0 +1,12 @@
+---
+
+# For use with pre-commit.
+# See usage instructions at http://pre-commit.com
+
+-   id: vylint
+    name: vylint
+    description: This hook runs vylint for linting Vyper Contracts
+    entry: vylint
+    language: python
+    types: [shell]
+    verbose: true

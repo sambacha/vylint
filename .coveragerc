@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = vylint
+omit = vylint/tests/*
+
+[report]
+ignore_errors = True

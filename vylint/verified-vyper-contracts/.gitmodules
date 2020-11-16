@@ -1,0 +1,3 @@
+[submodule "k/.build/pandoc-tangle"]
+	path = k/.build/pandoc-tangle
+	url = https://github.com/ehildenb/pandoc-tangle
