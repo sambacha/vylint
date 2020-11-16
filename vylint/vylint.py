@@ -430,7 +430,7 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-    parser = argparse.ArgumentParser(description="A bash script style checker")
+    parser = argparse.ArgumentParser(description="A Vyper Contract style checker")
     parser.add_argument(
         "files", metavar="file", nargs="*", help="files to scan for errors"
     )
